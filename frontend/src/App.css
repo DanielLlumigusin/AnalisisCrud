@@ -52,6 +52,7 @@ input {
   padding: 10px;
   border-radius: 20px;
   outline: solid 1px black;
+  color: black;
 }
 
 .btn-guardar {
