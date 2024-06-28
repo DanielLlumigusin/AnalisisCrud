@@ -1,20 +1,52 @@
-body{
+body {
   font-family: Georgia, 'Times New Roman', Times, serif;
+  background-image: url("./img/salacine.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  margin: 0;
+  padding: 0;
+  height: 92vh; 
+  position: relative; 
 }
 
-.container{
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); 
+  z-index: 1; 
+}
+
+.container {
   display: grid;
+  align-items: center;
   grid-template-columns: auto auto;
   margin: 50px;
+  position: relative;
+  z-index: 2;
 }
 
-.form{
+.cajero-status {
+  color: green;
+  font-size: 20px;
+}
+
+.izquierda h1 {
+  text-align: center;
+  font-size: 24px;
+}
+
+.form {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-input{
+input {
   width: 235px;
   margin: 20px;
   padding: 10px;
@@ -22,9 +54,33 @@ input{
   outline: solid 1px black;
 }
 
-.btn-guardar{
+.btn-guardar {
   background-color: rgb(119, 180, 27);
   padding: 20px;
   border-radius: 10px;
   width: 150px;
+}
+
+.img-ticket {
+  width: 150px;
+}
+
+.report {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: rgba(128, 128, 128, 0.369);
+  height: 80vh;
+  padding: 30px;
+  border-radius: 20px;
+  position: relative;
+  z-index: 2; /* Asegúrate de que el contenido esté sobre la capa opaca */
+}
+
+.report h1 {
+  font-size: 32px;
+}
+
+.report table {
+  font-size: 18px;
 }
