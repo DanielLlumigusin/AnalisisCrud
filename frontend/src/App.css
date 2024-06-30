@@ -4,6 +4,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
+  top: 0;
   margin: 0;
   padding: 0;
   height: 92vh; 
@@ -12,7 +13,7 @@ body {
 
 body::before {
   content: "";
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -30,10 +31,16 @@ body::before {
   z-index: 2;
 }
 
-.cajero-status {
+.cajero-status-on {
   color: green;
   font-size: 20px;
 }
+
+.cajero-status-off {
+  color: red;
+  font-size: 20px;
+}
+
 
 .izquierda h1 {
   text-align: center;
@@ -84,4 +91,106 @@ input {
 
 .report table {
   font-size: 18px;
+}
+
+.img-trash{
+  width: 20px;
+  
+}
+
+@media screen and (max-width: 768px) {
+  body{
+    height: 100vh;
+  }
+  .container {
+    grid-template-columns: 1fr;
+    margin: 20px;
+  }
+
+  .izquierda h1 {
+    font-size: 20px;
+  }
+
+  input {
+    width: 75%;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .btn-guardar, .btn-desconectar {
+    padding: 15px;
+    width: 75%;
+    margin: 10px 0;
+  }
+
+  .derecha{
+    display: flex;
+    justify-content: center;
+  }
+
+  .report {
+    width: 75%;
+    height: auto;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .report h1 {
+    font-size: 24px;
+  }
+
+  .report table {
+    font-size: 16px;
+  }
+
+  
+}
+
+@media screen and (max-width: 480px) {
+
+  body{
+    width: auto;
+    background-size: cover;
+  }
+
+  .container {
+    margin: 10px;
+  }
+
+  .izquierda h1 {
+    font-size: 18px;
+    margin: 10px;
+  }
+
+  input {
+    width: 200px;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 8px;
+  }
+
+  .btn-guardar, .btn-desconectar {
+    padding: 10px;
+    width: 200px;
+    margin: 5px 0;
+  }
+
+  .report {  
+    padding: 15px;
+    border-radius: 5px;
+    justify-content: center;
+  }
+
+  .report h1 {
+    font-size: 20px;
+  }
+
+  .report table {
+    font-size: 14px;
+  }
+
+  .img-ticket{
+    order: -1;
+  }
 }

@@ -22,3 +22,13 @@ export const setData = async (reservas) => {
     throw error;
   }
 };
+
+export const deleteData = async (reservaId) => {
+  try {
+    const dataRef = ref(database, `reservas/${reservaId}`); 
+    await set(dataRef, null);
+    console.log('Data deleted successfully!');
+  } catch (error) {
+    console.error('Error deleting data:', error);
+  }
+};

@@ -1,28 +1,54 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import { getData, setData as saveData } from "./Gestion"; 
+import { getData, setData as saveData, deleteData } from "./Gestion"; 
 import imagen from "./img/ticket.png";
-import imagenSala from "./img/salacine.jpg";
+import imagen_trash from "./img/basura.png";
+
 function App() {
   const [filas, setFilas] = useState("");
   const [asientos, setAsientos] = useState("");
   const [reservados, setReservados] = useState([]);
-  
-  // Mostrar en tiempo real los datos de filas y asientos
+  const [estado, setEstado] = useState("on");
+  const [btnEstado, setBtnEstado] = useState("Desconectar");
+
   useEffect(() => {
     async function fetchData() {
-      try {
-        const data = await getData();
-        setReservados(data || []);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if (estado === "on") {
+        try {
+          const data = await getData();
+          setReservados(data || []);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
       }
     }
+    
     fetchData();
-  }, []);
+  }, [estado]);
 
-  // Guardar a los datos de filas y asientos
+  useEffect(() => {
+    if (estado === "on") {
+      setBtnEstado("Desconectar");
+    } else {
+      setBtnEstado("Conectar");
+      setReservados([""]);
+    }
+  }, [estado]);
+
+  const changeStatus = () => {
+    if (estado === "on") {
+      return <span className="cajero-status-on">Cajero en línea</span>;
+    } else {
+      return <span className="cajero-status-off">Cajero fuera de línea</span>;
+    }
+  };
+
   const Guardar = async (filas_temporales, asientos_temporales) => {
+    if (estado !== "on") {
+      alert("Cajero fuera de línea. No se puede guardar.");
+      return;
+    }
+
     const alreadyReserved = reservados.some(
       ([fila, asiento]) =>
         fila === filas_temporales && asiento === asientos_temporales
@@ -43,17 +69,33 @@ function App() {
     }
   };
 
+  const eliminarReserva = async (index) => {
+    if (estado !== "on") {
+      alert("Cajero fuera de línea. No se puede eliminar.");
+      return;
+    }
+    try {
+      await deleteData(index);
+      window.location.reload(); 
+      console.log('Reserva eliminada exitosamente');
+    } catch (error) {
+      console.error('Error al eliminar la reserva', error);
+    }
+  };
+
   return (
     <div className="container">
       <div className="izquierda">
-        <span className="cajero-status">Cajero en linea</span>
-        <h1>Cajero N°1</h1>
+        {changeStatus()}  
+        <h1>Cajero Ticket</h1>
         <div className="form">
           <input
             type="text"
             placeholder="Ingrese Fila"
             value={filas}
             onChange={(e) => setFilas(e.target.value)}
+            required={true}
+            disabled={estado !== "on"}
           />
           <input
             type="number"
@@ -62,15 +104,27 @@ function App() {
             placeholder="Ingrese Asiento"
             value={asientos}
             onChange={(e) => setAsientos(e.target.value)}
+            required={true}
+            disabled={estado !== "on"}
           />
-          <button type="button" className="btn-guardar" onClick={() => Guardar(filas, asientos)}>
+          <button 
+            type="button" 
+            className="btn-guardar" 
+            onClick={() => Guardar(filas, asientos)}
+          >
             Guardar
           </button>
-          <button type="button" className="btn-desconectar">Desconectar</button>
+          <button 
+            type="button" 
+            className="btn-desconectar" 
+            onClick={() => setEstado(estado === "on" ? "off" : "on")}
+          >
+            {btnEstado}
+          </button>
           <img className="img-ticket" src={imagen} alt="Imagen" />
         </div>
       </div>
-      <div>
+      <div className="derecha">
         <div className="report">
           <h1>Reporte de Asientos</h1>
           <table>
@@ -85,6 +139,11 @@ function App() {
                 <tr key={index}>
                   <td>{reservado[0]}</td>
                   <td>{reservado[1]}</td>
+                  <td>
+                    <button onClick={() => eliminarReserva(index)}>
+                      <img className="img-trash" src={imagen_trash}></img>  
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
