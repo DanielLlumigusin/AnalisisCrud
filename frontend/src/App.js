@@ -141,7 +141,7 @@ function App() {
                   <td>{reservado[1]}</td>
                   <td>
                     <button onClick={() => eliminarReserva(index)}>
-                      <img className="img-trash" src={imagen_trash}></img>  
+                      <img className="img-trash" src={imagen_trash} alt="trash"></img>  
                     </button>
                   </td>
                 </tr>
