@@ -1,0 +1,51 @@
+/* Navbar.css */
+.navbar {
+    list-style: none;
+    height: 60px;
+    background-color: blue;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    padding-right: 20px;
+}
+
+.navbar ul {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px; 
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-item {
+    text-decoration: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.navbar-item:hover {
+    background-color: black;
+    outline: 2px solid black;
+}
+
+.navbar-logo{
+    padding: 50px;
+    font-size: 30px;
+}
+
+@media (max-width: 580px) {
+    .navbar{
+        padding-top: 15px;
+        height: 130px;
+    }
+    .navbar ul:last-child {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

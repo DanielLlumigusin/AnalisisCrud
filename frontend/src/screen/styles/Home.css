@@ -1,0 +1,36 @@
+.home-container{
+    padding: 50px;
+}
+.title-home {
+    font-size: 50px;
+}
+
+.table-home-container {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.table-home {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-home th,
+.table-home td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.table-home thead {
+    background-color: #f2f2f2;
+}
+
+.table-home tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table-home tbody tr:hover {
+    background-color: #ddd;
+}
