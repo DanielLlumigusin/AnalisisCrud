@@ -34,3 +34,11 @@
 .table-home tbody tr:hover {
     background-color: #ddd;
 }
+
+@media (max-width: 580px) {
+    .table-home{
+        
+    }
+    
+
+}

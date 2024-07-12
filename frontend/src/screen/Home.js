@@ -24,7 +24,7 @@ function Home() {
         <table className="table-home">
           <thead>
             <tr>
-              <th>ID</th>
+              <th className="id-table">ID</th>
               <th>Título</th>
               <th>Descripción</th>
               <th>Fechas</th>
