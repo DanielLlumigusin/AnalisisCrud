@@ -7,7 +7,7 @@ class GestionTask {
 
         // Simular datos de tareas y agregarlas a la lista
         this.tasks.push(this.createTask(1,"CRUD ANALISIS", "Realizar un Crud con propiedades Solid", "Pendiente", "13-07-2024", "21-07-2024"));
-        this.tasks.push(this.createTask(2,"Revisión de Diseño", "Evaluar diseño de interfaz", "En Progreso", "15-07-2024", "25-07-2024"));
+        this.tasks.push(this.createTask(2,"Revisión de Diseño", "Evaluar diseño de interfaz", "Progresando", "15-07-2024", "25-07-2024"));
         this.tasks.push(this.createTask(3,"Testing Unitario", "Desarrollar y ejecutar pruebas unitarias", "Completado", "18-07-2024", "22-07-2024"));
     }
 

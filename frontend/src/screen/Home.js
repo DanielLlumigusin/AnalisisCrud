@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import TaskModel from "../model/taskModel.js";
 import GestionTask from "../controller/gestionTask.js";
 import "./styles/Home.css";
+import EditarIcono from "../assets/icon/editar.png";
+import EliminarIcono from "../assets/icon/eliminar.png";
 
 function Home() {
   const [tasks, setTasks] = useState([]);
@@ -45,10 +47,10 @@ function Home() {
                     <li>Final: {task.date_end}</li>
                   </ul>
                 </td>
-                <td>{task.status}</td>
+                <td><p className={task.status}>{task.status}</p></td>
                 <td>
-                  <button type="button">Editar</button>
-                  <button type="button">Eliminar</button>
+                  <button type="button" className="btn-Editar"><img src={EditarIcono}/></button>
+                  <button type="button" className="btn-Eliminar"><img src={EliminarIcono}/></button>
                 </td>
               </tr>
             ))}
