@@ -3,7 +3,7 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
 
-app.use(cors()); 
+app.use(cors());
 app.use(express.json());
 
 // Configura la conexión a la base de datos
@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'Analisis'
+    database: 'todo'
 });
 
 // Conecta a la base de datos
@@ -26,7 +26,7 @@ connection.connect(err => {
 // Obtener usuario con query parameters
 app.get("/getUser", function(req, res) {
     const { username, password } = req.query; 
-    const sql = "SELECT * FROM user WHERE username = ? AND password = ?";
+    const sql = "SELECT * FROM usuario WHERE username = ? AND password = ?";
 
     connection.query(sql, [username, password], (err, results) => {
         if (err) {
@@ -39,10 +39,11 @@ app.get("/getUser", function(req, res) {
 });
 
 // Obtener todas las tareas
-app.get("/getTask", function(req, res) {
-    const sql = "SELECT * FROM task";
+app.get("/getTasks/:id", function(req, res) {
+    const id_usuario = req.params.id; 
+    const sql = "SELECT * FROM task WHERE id_usuario = ?";
     
-    connection.query(sql, (err, results) => {
+    connection.query(sql, id_usuario, (err, results) => {
         if (err) {
             console.error('Error en la BD:', err);
             res.status(500).send('Ocurrió un error en la consulta de las tasks');
@@ -67,13 +68,14 @@ app.post("/setTask", function(req, res) {
     });
 });
 
-// Editar una tarea existente
-app.put("/editTask/:id", function(req, res) {
-    const id = req.params.id;
-    const values = req.body;
-    const sql = "UPDATE task SET ? WHERE id = ?";
+// Actualizar una tarea
+app.put("/updateTask/:id", function(req, res) {
+    const id_task = req.params.id; 
+    const { titulo, descripcion, fecha_inicio, fecha_final, status, id_usuario } = req.body;
 
-    connection.query(sql, [values, id], (err, results) => {
+    const sql = "UPDATE task SET titulo = ?, descripcion = ?, fecha_inicio = ?, fecha_final = ?, status = ? WHERE id_task = ? AND id_usuario = ?";
+
+    connection.query(sql, [titulo, descripcion, fecha_inicio, fecha_final, status, id_task, id_usuario], (err, results) => {
         if (err) {
             console.error('Error en la BD:', err);
             res.status(500).send('Ocurrió un error al actualizar la tarea');
@@ -83,9 +85,22 @@ app.put("/editTask/:id", function(req, res) {
     });
 });
 
-app.use(errorHandler);
+// Eliminar una tarea
+app.delete("/deleteTask/:id", function(req, res) {
+    const id = req.params.id;
+    const sql = "DELETE FROM task WHERE id_task = ?";
 
-const port = 3000;
+    connection.query(sql, id, (err, results) => {
+        if (err) {
+            console.error('Error en la BD:', err);
+            res.status(500).send('Ocurrió un error al eliminar la tarea');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+const port = 4000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

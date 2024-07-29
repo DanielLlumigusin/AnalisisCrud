@@ -13,6 +13,7 @@ function Navbar() {
 
     const handleLogout = () => {
         localStorage.removeItem('checkUser');
+        localStorage.removeItem('id_usuario');
         setLogin(false);
         navigate('/login');
     };

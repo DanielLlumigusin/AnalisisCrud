@@ -1,23 +1,75 @@
 import React, { useEffect, useState } from "react";
-import TaskModel from "../model/taskModel.js";
 import GestionTask from "../controller/gestionTask.js";
+import EditTask from "./EditTask.js";
+import ReactModal from "react-modal";
 import "./styles/Home.css";
 import EditarIcono from "../assets/icon/editar.png";
 import EliminarIcono from "../assets/icon/eliminar.png";
 
+ReactModal.setAppElement("#root");
+
 function Home() {
   const [tasks, setTasks] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentTask, setCurrentTask] = useState(null);
 
   useEffect(() => {
-    // Crear una instancia de GestionTask
+    const loadTasks = async () => {
+      const gestionTask = new GestionTask();
+      try {
+        const tasksData = await gestionTask.getTasks();
+        setTasks(tasksData);
+      } catch (error) {
+        console.error("Error loading tasks:", error);
+      }
+    };
+
+    loadTasks();
+  }, []);
+
+  const eliminarTask = async (id_task) => {
+    if (window.confirm("¿Está seguro de que desea eliminar esta tarea?")) {
+      const gestionTask = new GestionTask();
+      try {
+        await gestionTask.deleteTask(id_task);
+        setTasks((prevTasks) =>
+          prevTasks.filter((task) => task.id_task !== id_task)
+        );
+        alert("Tarea eliminada con éxito.");
+      } catch (error) {
+        console.error("Error deleting task:", error);
+        alert("Error al eliminar la tarea.");
+      }
+    }
+  };
+
+  const handleEditClick = (task) => {
+    setCurrentTask(task);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveTask = async (updatedTask) => {
     const gestionTask = new GestionTask();
-
-    // Obtener las tareas desde GestionTask
-    const tasksData = gestionTask.getTasks();
-
-    // Actualizar el estado de tareas en el componente
-    setTasks(tasksData);
-  }, []); 
+    try {
+      await gestionTask.updateTask(
+        updatedTask.id_task,
+        updatedTask.titulo,
+        updatedTask.descripcion,
+        updatedTask.status,
+        updatedTask.fecha_inicio,
+        updatedTask.fecha_final
+      );
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id_task === updatedTask.id_task ? updatedTask : task
+        )
+      );
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error updating task:", error);
+      alert("Error al actualizar la tarea.");
+    }
+  };
 
   return (
     <section className="home-container">
@@ -35,28 +87,54 @@ function Home() {
             </tr>
           </thead>
           <tbody>
-            {/* Mapear cada tarea para mostrar en la tabla */}
-            {tasks.map((task) => (
-              <tr key={task.id}>
-                <td>{task.id}</td>
-                <td>{task.title}</td>
-                <td>{task.description}</td>
+            {tasks.map((task,index) => (
+              <tr key={task.id_task}>
+                <td>{index+1}</td>
+                <td>{task.titulo}</td>
+                <td>{task.descripcion}</td>
                 <td>
                   <ul>
-                    <li>Inicio: {task.date_start}</li>
-                    <li>Final: {task.date_end}</li>
+                    <li>Inicio: {task.fecha_inicio.slice(0, 10)}</li>
+                    <li>Fin: {task.fecha_final.slice(0, 10)}</li>
                   </ul>
                 </td>
-                <td><p className={task.status}>{task.status}</p></td>
+                <td>{task.status}</td>
                 <td>
-                  <button type="button" className="btn-Editar"><img src={EditarIcono}/></button>
-                  <button type="button" className="btn-Eliminar"><img src={EliminarIcono}/></button>
+                  <button
+                    className="btn-Editar"
+                    onClick={() => handleEditClick(task)}
+                  >
+                    <img className="EditarIcono" src={EditarIcono} alt="Editar" />
+                  </button>
+                  <button
+                    className="btn-Eliminar"
+                    onClick={() => eliminarTask(task.id_task)}
+                  >
+                    <img
+                      className="EliminarIcono"
+                      src={EliminarIcono}
+                      alt="Eliminar"
+                    />
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      <ReactModal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Edit Task"
+      >
+        {currentTask && (
+          <EditTask
+            dataTask={currentTask}
+            saveTask={handleSaveTask}
+          />
+        )}
+      </ReactModal>
     </section>
   );
 }

@@ -1,71 +1,64 @@
 import React, { useState } from "react";
+import GestionTask from "../controller/gestionTask";
 import "./styles/CreateTask.css";
 
-
 function CreateTask() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [titulo, setTitulo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [dateStart, setDateStart] = useState("");
   const [dateEnd, setDateEnd] = useState("");
   const [status, setStatus] = useState("");
-  const [task, setTask] = useState(null);
-  
-  function saveTask() {
-    setTask(null); 
-    const newTask = {
-      title: title,
-      description: description,
-      dateStart: dateStart,
-      dateEnd: dateEnd,
-      status: status,
-    };
+  const [message, setMessage] = useState("");
 
-    if(title === "", description === "", dateStart === "", dateEnd === "", status === ""){
-      alert("Error debe completar todos los campos");
-    }else{
-      setTask(newTask);
+  const saveTask = () => {
+    if (titulo === "" || descripcion === "" || dateStart === "" || dateEnd === "" || status === "") {
+      setMessage("Error: Debe completar todos los campos");
+    } else {
+      const newTask = {
+        titulo,
+        descripcion,
+        dateStart,
+        dateEnd,
+        status,
+      };
+
+      // Crear instancia de GestionTask y agregar tarea
+      const gestionTask = new GestionTask();
+      gestionTask.addTask(titulo, descripcion, status, dateStart, dateEnd);
+
+      setMessage("Éxito: Tarea guardada correctamente");
       limpiarCampos();
-      console.log("Task saved", newTask);
+      console.log("Task saved:", newTask);
     }
-    console.log("Error al guardar los datos");
-  }
+  };
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
   };
 
-  const limpiarCampos = (e) => {
-    setTitle("")
-    setDescription("")
-    setDateStart("")
-    setDateEnd("")
-    setStatus("")
-  }
-
-  const msgStatus = (e) => {
-    if(setStatus !== null){
-      return "Exito al guardar";
-    }else{
-      return "Error al guardar";
-    }
-  }
+  const limpiarCampos = () => {
+    setTitulo("");
+    setDescripcion("");
+    setDateStart("");
+    setDateEnd("");
+    setStatus("");
+  };
 
   return (
     <section className="formulario-container">
       <div className="card">
         <input
-          className="title-card"
+          className="titulo-card"
           type="text"
-          placeholder="Titulo"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Título"
+          value={titulo}
+          onChange={(e) => setTitulo(e.target.value)}
         />
         <textarea
-          className="description-card"
-          type="text"
-          placeholder="Descripcion"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          className="descripcion-card"
+          placeholder="Descripción"
+          value={descripcion}
+          onChange={(e) => setDescripcion(e.target.value)}
         />
         <input
           className="dateStart-card"
@@ -79,13 +72,13 @@ function CreateTask() {
           value={dateEnd}
           onChange={(e) => setDateEnd(e.target.value)}
         />
-        <select className="select-card" onChange={handleStatusChange}>
+        <select className="select-card" value={status} onChange={handleStatusChange}>
           <option value="">Seleccione</option>
           <option value="Pendiente">Pendiente</option>
           <option value="En curso">En curso</option>
           <option value="Terminado">Terminado</option>
         </select>
-        <p className="msg-status"></p>
+        <p className="msg-status">{message}</p> 
         <button type="button" className="btn-save" onClick={saveTask}>
           Guardar
         </button>
