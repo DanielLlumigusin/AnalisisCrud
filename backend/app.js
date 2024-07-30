@@ -38,6 +38,35 @@ app.get("/getUser", function(req, res) {
     });
 });
 
+app.get("/checkUsername", function(req, res) {
+    const { username } = req.query; 
+    const sql = "SELECT * FROM usuario WHERE username = ?";
+
+    connection.query(sql, [username], (err, results) => {
+        if (err) {
+            console.error('Error en la BD:', err);
+            res.status(500).send('Ocurrió un error en la consulta del usuario');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+app.post("/setUsuario", function(req, res) {
+    const values = req.body; 
+    const sql = "INSERT INTO usuario SET ?";
+
+    connection.query(sql, values, (err, results) => {
+        if (err) {
+            console.error('Error en la BD:', err);
+            res.status(500).send('Ocurrió un error al insertar la tarea');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+
 // Obtener todas las tareas
 app.get("/getTasks/:id", function(req, res) {
     const id_usuario = req.params.id; 

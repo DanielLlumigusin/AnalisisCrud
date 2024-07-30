@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./screen/Navbar.js";
 import Home from "./screen/Home.js";
 import Login from "./screen/Login.js";
+import Registro from "./screen/Registro.js";
 import ProtectedRoute from "./controller/protectedRoute.js";
 import "./App.css";
 function App() {
@@ -12,6 +13,7 @@ function App() {
             <Navbar />
             <Routes>
                 <Route path="/login" element={<Login />} />
+                <Route path="/registro" element={<Registro />} />
                 <Route path="/" element={
                         <ProtectedRoute>
                             <Home />

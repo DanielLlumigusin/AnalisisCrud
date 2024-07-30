@@ -22,6 +22,7 @@ const Login = () => {
         if (userFound) {
           localStorage.setItem("checkUser", "true");
           localStorage.setItem("id_usuario", userFound.id_usuario);
+          localStorage.setItem("nombre", userFound.nombre);
           alert("Ingresando al Sistema");
           navigate("/home");
           window.location.reload();
@@ -42,6 +43,7 @@ const Login = () => {
     <section className="login-container">
       <div className="card-login">
         <div className="login">
+          <h1>Login</h1>
           <label>Usuario: </label>
           <input
             type="text"

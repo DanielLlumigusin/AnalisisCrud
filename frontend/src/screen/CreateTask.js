@@ -47,6 +47,7 @@ function CreateTask() {
   return (
     <section className="formulario-container">
       <div className="card">
+        <h1>Crear Tarea</h1>
         <input
           className="titulo-card"
           type="text"
@@ -75,7 +76,7 @@ function CreateTask() {
         <select className="select-card" value={status} onChange={handleStatusChange}>
           <option value="">Seleccione</option>
           <option value="Pendiente">Pendiente</option>
-          <option value="En curso">En curso</option>
+          <option value="Progresando">Progresando</option>
           <option value="Terminado">Terminado</option>
         </select>
         <p className="msg-status">{message}</p> 

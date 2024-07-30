@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./styles/EditTask.css";
+
 function EditTask({ dataTask, saveTask }) {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -32,6 +33,7 @@ function EditTask({ dataTask, saveTask }) {
   return (
     <section className="formulario-container">
       <div className="card">
+        <h1>Editar Tarea</h1>
         <input
           className="titulo-card"
           type="text"
@@ -67,7 +69,7 @@ function EditTask({ dataTask, saveTask }) {
             Seleccione
           </option>
           <option value="Pendiente">Pendiente</option>
-          <option value="En curso">En curso</option>
+          <option value="Progresando">Progresando</option>
           <option value="Terminado">Terminado</option>
         </select>
         <button type="button" className="btn-save" onClick={handleSave}>

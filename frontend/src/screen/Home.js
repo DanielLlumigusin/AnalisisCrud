@@ -12,8 +12,13 @@ function Home() {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
+  const [nombreBienvenida, setNombreBienvenida] = useState("");
+
 
   useEffect(() => {
+
+    setNombreBienvenida(localStorage.getItem("nombre"));
+
     const loadTasks = async () => {
       const gestionTask = new GestionTask();
       try {
@@ -73,6 +78,7 @@ function Home() {
 
   return (
     <section className="home-container">
+      <span>Hola, {nombreBienvenida} aqui estan tus tareas...</span>
       <h1 className="title-home">Registro de Tareas</h1>
       <div className="table-home-container">
         <table className="table-home">
@@ -98,7 +104,7 @@ function Home() {
                     <li>Fin: {task.fecha_final.slice(0, 10)}</li>
                   </ul>
                 </td>
-                <td>{task.status}</td>
+                <td><p className={task.status}>{task.status}</p></td>
                 <td>
                   <button
                     className="btn-Editar"
@@ -125,8 +131,7 @@ function Home() {
 
       <ReactModal
         isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        contentLabel="Edit Task"
+        onRequestClose={() => setIsModalOpen(false)}       
       >
         {currentTask && (
           <EditTask

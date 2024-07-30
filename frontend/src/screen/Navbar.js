@@ -14,6 +14,7 @@ function Navbar() {
     const handleLogout = () => {
         localStorage.removeItem('checkUser');
         localStorage.removeItem('id_usuario');
+        localStorage.removeItem('nombre');
         setLogin(false);
         navigate('/login');
     };
@@ -31,7 +32,10 @@ function Navbar() {
                         <li><a href="#/" className="navbar-item" onClick={handleLogout}>Cerrar Sesión</a></li>
                     </>
                 ) : (
-                    <li><Link to="/login" className="navbar-item">Iniciar Sesión</Link></li>
+                    <>
+                        <li><Link to="/login" className="navbar-item">Iniciar Sesión</Link></li>
+                        <li><Link to="/registro" className="navbar-item">Registrar</Link></li>
+                    </>
                 )}
             </ul>
         </nav>
