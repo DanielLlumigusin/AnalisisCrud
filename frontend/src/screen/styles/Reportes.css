@@ -1,0 +1,38 @@
+.container-reportes{
+    padding:10px ;
+}
+
+.container-reportes h1{
+    font-size: 30px;
+}
+
+.header-reportes{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px; 
+}
+
+.Total{
+    font-size: 20px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.btn-pdf{
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;    
+    text-align: center;
+    width: 70px;
+    margin-right: 10px;
+}
+
+.btn-xls{
+    background-color: green;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;    
+    text-align: center;
+    width: 70px;
+}

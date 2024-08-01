@@ -129,6 +129,20 @@ app.delete("/deleteTask/:id", function(req, res) {
     });
 });
 
+
+app.get("/getReportes", function(req, res) {
+    const sql = "select * from task natural join usuario;";
+
+    connection.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error en la BD:', err);
+            res.status(500).send('Ocurrió un error en la consulta del reporte');
+            return;
+        }
+        res.json(results);
+    });
+});
+
 const port = 4000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
